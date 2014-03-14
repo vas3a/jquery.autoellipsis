@@ -211,6 +211,9 @@
 
                             // If the selected element is not empty, append the ellipsis characters.
                             if (selectedElement.contents().length) {
+                                var last;
+                                while(((last = selectedElement.contents().last()).get(0).nodeType == 1) && !last.contents().length)
+                                    removeLastEmptyElements(selectedElement);
                                 getLastTextNode(selectedElement).get(0).nodeValue += settings.ellipsis;
 
                             } else {
@@ -304,6 +307,14 @@
             // If there is no last child node, we append an empty text node and return that. Normally this should not
             // happen, as we test for emptiness before calling getLastTextNode.
 
+            // if( ['br'].indexOf(element[0].tagName.toLowerCase()) > -1 ){
+            //     var prev = element.prev();
+            //     // element.remove();
+            //     element = prev;
+            // }
+
+            // var contents = element.contents();
+            // return contents.eq(contents.length - 1);
             element.append('');
             var contents = element.contents();
             return contents.eq(contents.length - 1);
